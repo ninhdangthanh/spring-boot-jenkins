@@ -16,9 +16,6 @@ pipeline {
                     // Define the Docker Compose file location (if not in the root directory)
                     def dockerComposeFile = 'docker-compose.yml'
                     
-                    // Pull Docker Compose images (optional)
-                    sh "docker-compose -f ${dockerComposeFile} pull"
-                    
                     // Start the Docker Compose services
                     sh "docker-compose -f ${dockerComposeFile} up -d"
                 }
