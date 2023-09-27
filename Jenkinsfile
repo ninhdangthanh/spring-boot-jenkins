@@ -8,7 +8,7 @@ pipeline {
             steps {
                 echo 'Deploying and cleaning'
                 // sh 'docker container run -d --rm --name ninhdangthanh-springboot-jenkins -p 8081:8080 ninhdangthanh/springboot-jenkins'
-                sh 'docker compose up'
+                sh 'sudo docker compose up'
             }
         }
  
