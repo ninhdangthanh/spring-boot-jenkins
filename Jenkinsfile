@@ -2,17 +2,30 @@ pipeline {
 
     agent any
     
-    stages {
-
-        stage('Deploy Spring Boot to DEV') {
+    
+        stage('Checkout') {
             steps {
-                echo 'Deploying and cleaning'
-                // sh 'docker container run -d --rm --name ninhdangthanh-springboot-jenkins -p 8081:8080 ninhdangthanh/springboot-jenkins'
-                sh 'sudo docker compose up'
+                // Checkout your source code from your version control system (e.g., Git)
+                checkout scm
             }
         }
- 
-    }
+
+        stage('Build and Run Docker Compose') {
+            steps {
+                script {
+                    // Define the Docker Compose file location (if not in the root directory)
+                    def dockerComposeFile = 'docker-compose.yml'
+                    
+                    // Pull Docker Compose images (optional)
+                    sh "docker-compose -f ${dockerComposeFile} pull"
+                    
+                    // Start the Docker Compose services
+                    sh "docker-compose -f ${dockerComposeFile} up -d"
+                }
+            }
+        }
+
+
     post {
         // Clean after build
         always {
