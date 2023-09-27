@@ -1,19 +1,37 @@
 pipeline {
-
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                // Checkout your source code from your version control system (e.g., Git)
+                checkout scm
+            }
+        }
+
         stage('Build and Run Docker Compose') {
             steps {
-                sh "docker compose up"
+                script {
+                    // Define the Docker Compose file location (if not in the root directory)
+                    def dockerComposeFile = 'docker-compose.yml'
+                    
+                    // Pull Docker Compose images (optional)
+                    sh "docker-compose -f ${dockerComposeFile} pull"
+                    
+                    // Start the Docker Compose services
+                    sh "docker-compose -f ${dockerComposeFile} up -d"
+                }
             }
         }
     }
 
     post {
-        // Clean after build
-        always {
-            cleanWs()
+        success {
+            // Optionally, you can add post-build steps here
+        }
+
+        failure {
+            // Optionally, you can add steps to handle failures here
         }
     }
 }
