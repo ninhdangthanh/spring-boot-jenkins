@@ -26,12 +26,5 @@ pipeline {
     }
 
     post {
-        success {
-            // Optionally, you can add post-build steps here
-        }
-
-        failure {
-            // Optionally, you can add steps to handle failures here
-        }
     }
 }
